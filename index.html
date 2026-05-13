@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PokéHub — Collectible Locator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-logo">⚡ PokéHub</div>
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#locator">Locator</a></li>
+      <li><a href="#trade">Trade</a></li>
+      <li><a href="#tcg">TCG</a></li>
+      <li><a href="#go">Pokémon GO</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-icon" id="notifBtn" title="Alerts">🔔</button>
+      <button class="btn-icon" id="msgBtn" title="Messages">💬</button>
+      <div class="avatar">🎮</div>
+    </div>
+    <button class="hamburger" id="hamburger">☰</button>
+  </nav>
+
+  <!-- ===== HERO / HOME ===== -->
+  <section class="hero" id="home">
+    <div class="hero-bg-circles"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Find Every<br /><span>Pokémon</span> Collectible</h1>
+      <p class="hero-sub">Search cards, merch, GO spawns, trades — all in one hub.</p>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search Pokémon, card, item…" />
+        <button onclick="runSearch()" class="btn-primary">🔍 Search</button>
+      </div>
+      <div id="searchResults" class="search-results hidden"></div>
+    </div>
+    <div class="hero-pokeball"></div>
+  </section>
+
+  <!-- ===== RAID ALERTS BANNER ===== -->
+  <div class="raid-banner" id="raidBanner">
+    <div class="raid-inner">
+      <span class="raid-label">⚔️ RAID ALERT</span>
+      <strong id="raidName">5-Star Raid — Mewtwo</strong>
+      <span class="raid-timer" id="raidTimer">15:00</span>
+      <span class="raid-players">👥 8 players nearby</span>
+      <button class="btn-sm" onclick="joinRaid()">Join Raid</button>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD GRID ===== -->
+  <main class="dashboard" id="dashboard">
+
+    <!-- RARE NEARBY -->
+    <section class="card-panel" id="locator">
+      <div class="panel-header">
+        <h2>📍 Rare Pokémon Nearby</h2>
+        <button class="btn-sm" onclick="refreshNearby()">Refresh</button>
+      </div>
+      <div class="location-bar">
+        <input type="text" id="locationInput" placeholder="Enter postcode or city…" />
+        <button class="btn-primary sm" onclick="setLocation()">📌 Set Location</button>
+      </div>
+      <ul class="nearby-list" id="nearbyList">
+        <li class="nearby-item shimmer"></li>
+        <li class="nearby-item shimmer"></li>
+        <li class="nearby-item shimmer"></li>
+      </ul>
+    </section>
+
+    <!-- MARKETPLACE -->
+    <section class="card-panel" id="trade">
+      <div class="panel-header">
+        <h2>🛒 Marketplace</h2>
+        <div class="filter-tabs">
+          <button class="tab active" onclick="filterMarket('all',this)">All</button>
+          <button class="tab" onclick="filterMarket('tcg',this)">TCG</button>
+          <button class="tab" onclick="filterMarket('nearby',this)">Nearby</button>
+        </div>
+      </div>
+      <div class="market-list" id="marketList"></div>
+    </section>
+
+    <!-- TCG SCANNER -->
+    <section class="card-panel" id="tcg">
+      <div class="panel-header">
+        <h2>📷 TCG Card Scanner</h2>
+      </div>
+      <div class="scanner-area" id="scannerArea">
+        <div class="scan-frame">
+          <span>Point camera at card</span>
+          <div class="scan-line"></div>
+        </div>
+        <button class="btn-primary" onclick="simulateScan()">📸 Scan Card</button>
+      </div>
+      <div id="scanResult" class="scan-result hidden"></div>
+      <div class="collection-list" id="collectionList">
+        <h3>My Collection</h3>
+        <ul id="myCollection"></ul>
+      </div>
+    </section>
+
+    <!-- POKÉMON GO SECTION -->
+    <section class="card-panel go-panel" id="go">
+      <div class="panel-header">
+        <h2>🌍 Pokémon GO Companion</h2>
+      </div>
+      <div class="go-grid">
+        <!-- Live Raids -->
+        <div class="go-sub-panel">
+          <h3>⚔️ Live Raids</h3>
+          <ul class="raid-list" id="raidList"></ul>
+        </div>
+        <!-- Spawn Radar -->
+        <div class="go-sub-panel">
+          <h3>🗺️ Spawn Radar</h3>
+          <div class="mini-map" id="miniMap">
+            <div class="map-bg">
+              <div class="map-pin" style="top:30%;left:40%">🔴</div>
+              <div class="map-pin" style="top:55%;left:65%">🟡</div>
+              <div class="map-pin" style="top:20%;left:70%">🟢</div>
+            </div>
+          </div>
+        </div>
+        <!-- Upcoming Events -->
+        <div class="go-sub-panel">
+          <h3>📅 Upcoming Events</h3>
+          <ul class="event-list" id="eventList"></ul>
+        </div>
+        <!-- Raid Matchmaking -->
+        <div class="go-sub-panel">
+          <h3>🤝 Raid Matchmaking</h3>
+          <div id="matchmaking">
+            <p class="muted">Find players for your next raid.</p>
+            <input type="text" id="raidPokemon" placeholder="Pokémon name…" />
+            <button class="btn-primary sm" onclick="findPlayers()">Find Players</button>
+            <div id="matchResults"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WISHLIST & TRADE NETWORK -->
+    <section class="card-panel" id="wishlist-panel">
+      <div class="panel-header">
+        <h2>⭐ Wishlist & Trade Network</h2>
+        <button class="btn-sm" onclick="openAddWish()">+ Add</button>
+      </div>
+      <div class="wishlist-grid">
+        <div>
+          <h3>My Wishlist</h3>
+          <ul class="wish-list" id="wishList"></ul>
+        </div>
+        <div>
+          <h3>Matching Traders Nearby</h3>
+          <ul class="trader-list" id="traderList"></ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== MESSAGES MODAL ===== -->
+  <div class="modal-overlay hidden" id="msgModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>💬 Messages</h2>
+        <button onclick="closeModal('msgModal')">✕</button>
+      </div>
+      <div class="chat-list" id="chatList"></div>
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input">
+          <input type="text" id="chatInput" placeholder="Message seller…" onkeydown="if(event.key==='Enter')sendMsg()" />
+          <button onclick="sendMsg()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NOTIFICATIONS MODAL ===== -->
+  <div class="modal-overlay hidden" id="notifModal">
+    <div class="modal notif-modal">
+      <div class="modal-header">
+        <h2>🔔 Alerts</h2>
+        <button onclick="closeModal('notifModal')">✕</button>
+      </div>
+      <ul class="notif-list" id="notifList"></ul>
+    </div>
+  </div>
+
+  <!-- ===== ADD WISH MODAL ===== -->
+  <div class="modal-overlay hidden" id="wishModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Add to Wishlist</h2>
+        <button onclick="closeModal('wishModal')">✕</button>
+      </div>
+      <input type="text" id="wishInput" placeholder="Pokémon or card name…" />
+      <button class="btn-primary" onclick="addWish()">Add</button>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>⚡ PokéHub — Not affiliated with Nintendo, Game Freak, or The Pokémon Company.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
