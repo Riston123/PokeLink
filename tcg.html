@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TCG Scanner — PokéHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="tcg">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-logo">⚡ PokéHub</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="locator.html">Locator</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="tcg.html" class="active">TCG</a></li>
+      <li><a href="go.html">Pokémon GO</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-icon" id="notifBtn" title="Alerts">🔔<span class="icon-dot hidden" id="notifDot"></span></button>
+      <button class="btn-icon" id="msgBtn" title="Messages">💬<span class="icon-dot hidden" id="msgDot"></span></button>
+      <div class="avatar">🎮</div>
+    </div>
+    <button class="hamburger" id="hamburger">☰</button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="locator.html">Locator</a>
+    <a href="trade.html">Trade</a>
+    <a href="tcg.html" class="active">TCG</a>
+    <a href="go.html">Pokémon GO</a>
+    <a href="wishlist.html">Wishlist</a>
+  </div>
+
+  <!-- ===== PAGE HERO ===== -->
+  <header class="page-hero" style="--accent-glow: rgba(20,184,255,.22)">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>TCG</span></div>
+    <h1>📷 TCG Card Scanner</h1>
+    <p>Scan a card for an instant value estimate, then save it to your collection to track its worth over time.</p>
+  </header>
+
+  <!-- ===== PAGE LAYOUT ===== -->
+  <div class="page-layout">
+    <main class="page-main">
+
+      <section class="card-panel">
+        <div class="panel-header"><h2>📷 Card Scanner</h2></div>
+        <div class="scanner-area" id="scannerArea">
+          <div class="scan-frame">
+            <span>Point camera at card</span>
+            <div class="scan-line"></div>
+          </div>
+          <button class="btn-primary" onclick="simulateScan()">📸 Scan Card</button>
+        </div>
+        <div id="scanResult" class="scan-result hidden"></div>
+      </section>
+
+      <section class="card-panel">
+        <div class="panel-header">
+          <h2>🗂️ My Collection</h2>
+          <span class="muted" id="collectionValue">0 cards · $0 total value</span>
+        </div>
+        <div class="collection-list">
+          <ul id="myCollection"></ul>
+        </div>
+      </section>
+
+      <section class="card-panel">
+        <div class="panel-header"><h2>💲 Current Market Pricing</h2></div>
+        <p class="muted">Live-ish estimates pulled from recent marketplace sales across graded and raw cards.</p>
+        <table class="pricing-table">
+          <thead><tr><th>Card</th><th>Set</th><th>Rarity</th><th>Price</th></tr></thead>
+          <tbody id="pricingTableBody"></tbody>
+        </table>
+      </section>
+
+    </main>
+
+    <!-- ===== AD RAIL ===== -->
+    <aside class="ad-rail">
+      <div class="ad-slot" data-ad-rotator></div>
+      <div class="ad-static">
+        <strong>Grading tip:</strong> Sleeve and toploader your card before scanning — cleaner scans price more accurately.
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== MESSAGES MODAL ===== -->
+  <div class="modal-overlay hidden" id="msgModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>💬 Messages</h2>
+        <button onclick="closeModal('msgModal')">✕</button>
+      </div>
+      <div class="chat-layout">
+        <div class="chat-list" id="chatList"></div>
+        <div class="chat-window" id="chatWindow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NOTIFICATIONS MODAL ===== -->
+  <div class="modal-overlay hidden" id="notifModal">
+    <div class="modal notif-modal">
+      <div class="modal-header">
+        <h2>🔔 Alerts</h2>
+        <button onclick="closeModal('notifModal')">✕</button>
+      </div>
+      <ul class="notif-list" id="notifList"></ul>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="locator.html">Locator</a>
+      <a href="trade.html">Trade</a>
+      <a href="tcg.html">TCG</a>
+      <a href="go.html">Pokémon GO</a>
+      <a href="wishlist.html">Wishlist</a>
+    </div>
+    <p>⚡ PokéHub — Not affiliated with Nintendo, Game Freak, or The Pokémon Company.</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    initSharedChrome();
+    renderCollection();
+    renderPricingTable();
+  </script>
+</body>
+</html>

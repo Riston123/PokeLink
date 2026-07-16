@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wishlist & Trade Network — PokéHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="wishlist">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-logo">⚡ PokéHub</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="locator.html">Locator</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="tcg.html">TCG</a></li>
+      <li><a href="go.html">Pokémon GO</a></li>
+      <li><a href="wishlist.html" class="active">Wishlist</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-icon" id="notifBtn" title="Alerts">🔔<span class="icon-dot hidden" id="notifDot"></span></button>
+      <button class="btn-icon" id="msgBtn" title="Messages">💬<span class="icon-dot hidden" id="msgDot"></span></button>
+      <div class="avatar">🎮</div>
+    </div>
+    <button class="hamburger" id="hamburger">☰</button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="locator.html">Locator</a>
+    <a href="trade.html">Trade</a>
+    <a href="tcg.html">TCG</a>
+    <a href="go.html">Pokémon GO</a>
+    <a href="wishlist.html" class="active">Wishlist</a>
+  </div>
+
+  <!-- ===== PAGE HERO ===== -->
+  <header class="page-hero" style="--accent-glow: rgba(177,83,255,.24)">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Wishlist</span></div>
+    <h1>⭐ Wishlist & Trade Network</h1>
+    <p>Track what you're chasing and get matched with nearby traders who already have it.</p>
+  </header>
+
+  <!-- ===== PAGE LAYOUT ===== -->
+  <div class="page-layout">
+    <main class="page-main">
+
+      <section class="card-panel" id="wishlist-panel">
+        <div class="panel-header">
+          <h2>⭐ Wishlist & Trade Network</h2>
+          <button class="btn-sm" onclick="openAddWish()">+ Add</button>
+        </div>
+        <div class="wishlist-grid">
+          <div>
+            <h3>My Wishlist</h3>
+            <ul class="wish-list" id="wishList"></ul>
+          </div>
+          <div>
+            <h3>Matching Traders Nearby</h3>
+            <ul class="trader-list" id="traderList"></ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ===== AD RAIL ===== -->
+    <aside class="ad-rail">
+      <div class="ad-slot" data-ad-rotator></div>
+      <div class="ad-static">
+        <strong>Trade tip:</strong> Verified traders respond 3x faster — check the badge before messaging.
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== MESSAGES MODAL ===== -->
+  <div class="modal-overlay hidden" id="msgModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>💬 Messages</h2>
+        <button onclick="closeModal('msgModal')">✕</button>
+      </div>
+      <div class="chat-layout">
+        <div class="chat-list" id="chatList"></div>
+        <div class="chat-window" id="chatWindow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NOTIFICATIONS MODAL ===== -->
+  <div class="modal-overlay hidden" id="notifModal">
+    <div class="modal notif-modal">
+      <div class="modal-header">
+        <h2>🔔 Alerts</h2>
+        <button onclick="closeModal('notifModal')">✕</button>
+      </div>
+      <ul class="notif-list" id="notifList"></ul>
+    </div>
+  </div>
+
+  <!-- ===== ADD WISH MODAL ===== -->
+  <div class="modal-overlay hidden" id="wishModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Add to Wishlist</h2>
+        <button onclick="closeModal('wishModal')">✕</button>
+      </div>
+      <input type="text" id="wishInput" placeholder="Pokémon or card name…" />
+      <button class="btn-primary" onclick="addWish()">Add</button>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="locator.html">Locator</a>
+      <a href="trade.html">Trade</a>
+      <a href="tcg.html">TCG</a>
+      <a href="go.html">Pokémon GO</a>
+      <a href="wishlist.html">Wishlist</a>
+    </div>
+    <p>⚡ PokéHub — Not affiliated with Nintendo, Game Freak, or The Pokémon Company.</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    initSharedChrome();
+    renderWishlist();
+    renderTraders();
+  </script>
+</body>
+</html>

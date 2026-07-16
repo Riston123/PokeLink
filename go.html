@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pokémon GO Companion — PokéHub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="go">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="nav-logo">⚡ PokéHub</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="locator.html">Locator</a></li>
+      <li><a href="trade.html">Trade</a></li>
+      <li><a href="tcg.html">TCG</a></li>
+      <li><a href="go.html" class="active">Pokémon GO</a></li>
+      <li><a href="wishlist.html">Wishlist</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-icon" id="notifBtn" title="Alerts">🔔<span class="icon-dot hidden" id="notifDot"></span></button>
+      <button class="btn-icon" id="msgBtn" title="Messages">💬<span class="icon-dot hidden" id="msgDot"></span></button>
+      <div class="avatar">🎮</div>
+    </div>
+    <button class="hamburger" id="hamburger">☰</button>
+  </nav>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="index.html">Home</a>
+    <a href="locator.html">Locator</a>
+    <a href="trade.html">Trade</a>
+    <a href="tcg.html">TCG</a>
+    <a href="go.html" class="active">Pokémon GO</a>
+    <a href="wishlist.html">Wishlist</a>
+  </div>
+
+  <!-- ===== PAGE HERO ===== -->
+  <header class="page-hero" style="--accent-glow: rgba(35,224,138,.22)">
+    <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Pokémon GO</span></div>
+    <h1>🌍 Pokémon GO Companion</h1>
+    <p>Live raids, a spawn radar, upcoming events, and matchmaking to fill out your raid squad.</p>
+  </header>
+
+  <div class="raid-banner">
+    <div class="raid-inner">
+      <span class="raid-label">⚔️ RAID ALERT</span>
+      <strong>5-Star Raid — Mewtwo</strong>
+      <span class="raid-timer" id="raidTimer">15:00</span>
+      <span class="raid-players">👥 8 players nearby</span>
+      <button class="btn-sm" onclick="joinRaid()">Join Raid</button>
+    </div>
+  </div>
+
+  <!-- ===== PAGE LAYOUT ===== -->
+  <div class="page-layout">
+    <main class="page-main">
+
+      <section class="card-panel go-panel">
+        <div class="panel-header"><h2>🌍 GO Dashboard</h2></div>
+        <div class="go-grid">
+          <!-- Live Raids -->
+          <div class="go-sub-panel">
+            <h3>⚔️ Live Raids</h3>
+            <ul class="raid-list" id="raidList"></ul>
+          </div>
+          <!-- Spawn Radar -->
+          <div class="go-sub-panel">
+            <h3>🗺️ Spawn Radar</h3>
+            <div class="mini-map" id="miniMap">
+              <div class="map-bg">
+                <div class="map-pin" style="top:30%;left:40%">🔴</div>
+                <div class="map-pin" style="top:55%;left:65%">🟡</div>
+                <div class="map-pin" style="top:20%;left:70%">🟢</div>
+                <div class="map-pin" style="top:68%;left:30%">🔵</div>
+              </div>
+            </div>
+          </div>
+          <!-- Upcoming Events -->
+          <div class="go-sub-panel">
+            <h3>📅 Upcoming Events</h3>
+            <ul class="event-list" id="eventList"></ul>
+          </div>
+          <!-- Raid Matchmaking -->
+          <div class="go-sub-panel">
+            <h3>🤝 Raid Matchmaking</h3>
+            <div id="matchmaking">
+              <p class="muted">Find players for your next raid.</p>
+              <input type="text" id="raidPokemon" placeholder="Pokémon name…" />
+              <button class="btn-primary sm" onclick="findPlayers()">Find Players</button>
+              <div id="matchResults"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ===== AD RAIL ===== -->
+    <aside class="ad-rail">
+      <div class="ad-slot" data-ad-rotator></div>
+      <div class="ad-static">
+        <strong>Raid tip:</strong> Legendary raids need a full squad — post in Matchmaking 10 minutes before it ends.
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== MESSAGES MODAL ===== -->
+  <div class="modal-overlay hidden" id="msgModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>💬 Messages</h2>
+        <button onclick="closeModal('msgModal')">✕</button>
+      </div>
+      <div class="chat-layout">
+        <div class="chat-list" id="chatList"></div>
+        <div class="chat-window" id="chatWindow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NOTIFICATIONS MODAL ===== -->
+  <div class="modal-overlay hidden" id="notifModal">
+    <div class="modal notif-modal">
+      <div class="modal-header">
+        <h2>🔔 Alerts</h2>
+        <button onclick="closeModal('notifModal')">✕</button>
+      </div>
+      <ul class="notif-list" id="notifList"></ul>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="locator.html">Locator</a>
+      <a href="trade.html">Trade</a>
+      <a href="tcg.html">TCG</a>
+      <a href="go.html">Pokémon GO</a>
+      <a href="wishlist.html">Wishlist</a>
+    </div>
+    <p>⚡ PokéHub — Not affiliated with Nintendo, Game Freak, or The Pokémon Company.</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    initSharedChrome();
+    renderRaids();
+    renderEvents();
+    setInterval(tickRaids, 1000);
+  </script>
+</body>
+</html>
