@@ -637,3 +637,9 @@ function initSharedChrome() {
   renderChatList();
   renderChatWindow();
 }
+function randomizePins() {
+  document.querySelectorAll('.map-pin').forEach(pin => {
+    pin.style.top = Math.random() * 80 + 10 + '%';
+    pin.style.left = Math.random() * 80 + 10 + '%';
+  });
+}
