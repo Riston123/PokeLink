@@ -166,6 +166,8 @@ function aiReply(message) {
   if (msg.includes("available")) return "Yep, it's still available right now.";
   if (msg.includes("meet"))      return "I can meet later today if that helps.";
   if (msg.includes("ship"))      return "I can ship it tracked, usually out next business day.";
+  if (msg.includes("$180"))      return "Sounds great! Where do you want to meet up?";
+  if (msg.includes("Canley Vale"))      return "Cool, see you tomorrow!";
 
   const genericReplies = [
     "Sounds good — what are you thinking?",
