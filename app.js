@@ -164,10 +164,9 @@ function aiReply(message) {
   if (msg.includes("condition")) return "Condition is solid — I can send more pics if you want.";
   if (msg.includes("trade"))     return "I'm open to trades. What do you have?";
   if (msg.includes("available")) return "Yep, it's still available right now.";
-  if (msg.includes("meet"))      return "I can meet later today if that helps.";
+  if (msg.includes("meet"))      return "Canley Vale, ok, I'll be there tommorrow at 12:30Pm!";
   if (msg.includes("ship"))      return "I can ship it tracked, usually out next business day.";
   if (msg.includes("$180"))      return "Sounds great! Where do you want to meet up?";
-  if (msg.includes("meet"))      return "Cool, see you tomorrow!";
 
   const genericReplies = [
     "Sounds good — what are you thinking?",
